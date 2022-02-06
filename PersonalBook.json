@@ -1,2 +1,1 @@
-{"PersonalBook":{"firstName":"Sandy","lastname":"Marathe","address":"MeeraNagar","city":"Shahada","state":"Maharashtra","zip":"425409","phoneNo":"8899887788","emailID":"sandy@gmail.com"}}
-,{"PersonalBook":{"firstName":"Murtaza","lastname":"Maimoon","address":"HDFCBank","city":"Shahada","state":"Maharashtra","zip":"425409","phoneNo":"899009988","emailID":"murtaza@gmail.com"}}
+{"PersonalBook":[{"firstName":"Sandy","lastname":"Marathe","address":"MeeraNagar","city":"Shahada","state":"Maharashtra","zip":"425409","phoneNo":"8899887788","emailID":"sandy@gmail.com"},{"firstName":"Murtaza","lastname":"Maimoon","address":"HDFCBank","city":"Shahada","state":"Maharashtra","zip":"425409","phoneNo":"899009988","emailID":"murtaza@gmail.com"}]}

@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.*;
@@ -104,6 +105,7 @@ public class AddressBookRepo {
         } else {
             System.out.println("Entered Address Book Name is Invalid");
         }
+
     }
 
     public static void saveAddressBooktoFile() {
@@ -235,28 +237,50 @@ public class AddressBookRepo {
     public static void saveAddressBooktoJSONFile() {
 // create a writer
         try {
-            for( Map.Entry<String, AddressBook> addressBookEntry : addressBookMap.entrySet()){
-                BufferedWriter writer = Files.newBufferedWriter(Paths.get(addressBookEntry.getKey()+".json"));
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get("AddressBook.json"));
+            for (Map.Entry<String, AddressBook> addressBookEntry : addressBookMap.entrySet()) {
+
                 List<Contacts> contactlist = addressBookEntry.getValue().contactList;
                 Gson gson = new Gson();
+                Map<String, List<Contacts>> addressMap = new HashMap<>();
+                addressMap.put(addressBookEntry.getKey(), new ArrayList<>());
                 contactlist.stream().forEach(contact -> {
-                    try {
-                        Map<String,Contacts> addressMap = new HashMap<>();
-                        addressMap.put(addressBookEntry.getKey(),contact);
-                        writer.write(gson.toJson(addressMap));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    addressMap.get(addressBookEntry.getKey()).add(contact);
                 });
-                // write JSON to file
-                //writer.write(gson.toJson(contactlist));
-                writer.close();
+                writer.write(gson.toJson(addressMap));
+
             }
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void accessAddressBookfromJSONFile() {
+
+        BufferedReader reader = null;
+        try {
+            reader = Files.newBufferedReader(Paths.get("AddressBook.json"));
+            //create JsonObject instance
+            JsonParser jsonParser = new JsonParser();
+            JsonElement jsonElement = jsonParser.parse(reader);
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+            for (JsonElement element: jsonArray) {
+
+                if (element.isJsonObject()) {
+
+                    JsonObject car = element.getAsJsonObject();
+
+                    System.out.println("********************");
+                    System.out.println(car.get("firstName").getAsString());
+                   // System.out.println(car.get("studentName").getAsString());
+                }
+            }
+            //System.out.println(parser.get("PersonalBook").getAsJsonArray());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }
